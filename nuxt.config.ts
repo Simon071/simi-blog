@@ -6,9 +6,9 @@ export default defineNuxtConfig({
         css: {
             preprocessorOptions: {
                 scss: {
-
+                    // additionalData:'@use "@/assets/"'
                 }
-            }
+            },
         }
     },
 })
