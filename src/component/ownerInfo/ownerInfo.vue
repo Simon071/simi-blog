@@ -2,7 +2,7 @@
   <div class="info__container">
     <div class="big-title">
       <p class="big-title__inner">
-        Hi
+        Hi !
       </p>
     </div>
     <div class="small-title">
@@ -20,6 +20,7 @@
         <label>email:simon071@163.com</label>
       </div>
     </div>
+    <!-- <el-avatar :src='png'></el-avatar> -->
   </div>
 </template>
 
@@ -34,14 +35,10 @@ export default {
 };
 </script>
 <script setup lang="ts">
-const state = reactive({
-  avatarUrl: "../../assets/img/6a0876e9128e88a7523b6f625203be6.jpg",
-});
-const { avatarUrl } = toRefs(state);
 const switchGithub = () => {
-  console.log();
   document.location = "https://github.com/Simon071";
 };
+const png: string = "../../assets/img/6a0876e9128e88a7523b6f625203be6.jpg";
 </script>
 <style lang="scss" scoped>
 .info__container {
@@ -55,8 +52,7 @@ const switchGithub = () => {
     display: flex;
     align-items: center;
     .big-title__inner {
-      color: #808080;
-      font-size: 60px;
+      font-size: 80px;
       width: 100%;
       height: 30%;
     }
@@ -68,7 +64,6 @@ const switchGithub = () => {
     // align-items: center;
 
     .small-title__inner {
-      color: #808080;
       margin: 0;
       font-size: 50px;
       width: 100%;
@@ -88,7 +83,6 @@ const switchGithub = () => {
       margin-right: 15px;
     }
     label {
-      color: #808080;
       margin-right: 10px;
     }
     .btn {
@@ -99,9 +93,9 @@ const switchGithub = () => {
       line-height: 2rem;
       white-space: nowrap;
       cursor: pointer;
-      background: #201f31;
-      border: 1px solid #201f31;
-      color: #9c9ea3;
+      background: #570df8;
+      border: 1px solid #570df8;
+      color: #fff;
       -webkit-appearance: none;
       text-align: center;
       box-sizing: border-box;
@@ -110,9 +104,8 @@ const switchGithub = () => {
       font-weight: 500;
     }
     .btn:hover {
-      color: #201f31;
-      background: #808080;
-      border: 1px solid #808080;
+      background: #4b0cd3;
+      border: 1px solid #4b0cd3;
     }
     .info__footer__label {
       height: 100%;

@@ -32,7 +32,7 @@ const state = reactive({
 });
 const router = useRouter();
 const toMore = () => {
-  router.push("/moreblogs");
+  router.push("/moreblogs?page=1");
 };
 </script>
 
@@ -41,48 +41,54 @@ const toMore = () => {
 .blog-container {
   width: 80%;
   line-height: 3rem;
-  margin: 1rem auto;
+  margin: 1rem auto 0 auto;
   display: flex;
   position: relative;
   flex-direction: column;
   .blog-container__header {
     position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    height: 3rem;
     .blog-container__header__title {
-      position: absolute;
-      top: 0;
-      color: #808080;
-      left: 1rem;
+      // position: absolute;
+      // top: 0rem;
+      color: #000;
+      font-weight: bold;
+      // left: 1rem;
+      line-height: 100%;
       p {
+        margin: 0;
         height: 100%;
         line-height: 100%;
+        font-size: 18px;
       }
     }
     .blog-container__header__button {
-      position: absolute;
-      right: 1rem;
-      top: 0;
       button {
-        display: inline-block;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
         width: 5rem;
         height: 2rem;
         line-height: 2rem;
         border-radius: 1rem;
         white-space: nowrap;
         cursor: pointer;
-        background: #201f31;
-        border: 1px solid #201f31;
-        color: #9c9ea3;
+        background: #570df8;
+        border: 1px solid #570df8;
+        color: #fff;
         -webkit-appearance: none;
         text-align: center;
         box-sizing: border-box;
         outline: none;
         transition: 0.3s;
-        font-weight: 500;
       }
       button:hover {
-        color: #201f31;
-        background: #808080;
-        border: 1px solid #808080;
+        background: #4b0cd3;
+        border: 1px solid #4b0cd3;
       }
     }
   }

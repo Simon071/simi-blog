@@ -12,7 +12,7 @@
             :key='item.id'
             :title='item.attributes.title'
             :content='item.attributes.content'
-            @click='toDetail(item.attributes.bid)'
+            @click='toDetail(item.id)'
             >
             </blog-info>
         </blog-container>
@@ -42,15 +42,15 @@ const state = reactive({});
 const router = useRouter();
 const res = await useAsyncData("getBlogList", () =>
   $fetch(
-    "http://localhost:1337/api/blog-contents?sort=publishDate&pagination[pageSize]=5"
+    "http://localhost:1337/api/blog-contents?sort[0]=publishDate:desc&pagination[pageSize]=5"
   )
 );
 // 获取整个blog的数组 形成一个个小卡片
 const blogList: Array<object> = ref(res.data._rawValue.data);
 
 // 切换至Detail
-const toDetail = (bid: Number) => {
-  router.push(`/blogdetail?bid=${bid}`);
+const toDetail = (id: Number) => {
+  router.push(`/blogdetail?id=${id}`);
 };
 </script>
 
@@ -60,10 +60,8 @@ const toDetail = (bid: Number) => {
   width: 100%;
   display: flex;
   justify-content: center;
-  background-color: rgb(0, 49, 83);
   .main-content__info {
     margin: 1rem auto;
-
     width: 80%;
     height: auto;
     line-height: 100%;

@@ -26,17 +26,26 @@
     <div class="detail-content__container">
       <div class="detail-content__title">
         <h1>
-          {{ detailRes.data._rawValue.data[0].attributes.title }}
+          {{
+            detailRes.data._rawValue.data[0].attributes.title ||
+            "can't get any response"
+          }}
         </h1>
       </div>
       <div class="detail-content__content">
         <p>
-          {{ detailRes.data._rawValue.data[0].attributes.content }}
+          {{
+            detailRes.data._rawValue.data[0].attributes.content ||
+            "can't get any response"
+          }}
         </p>
       </div>
       <div class="detail-content__date">
         <p>
-          {{ detailRes.data._rawValue.data[0].attributes.publishDate.trim() }}
+          {{
+            detailRes.data._rawValue.data[0].attributes.publishDate.trim() ||
+            "can't get any response"
+          }}
         </p>
       </div>
     </div>
@@ -46,12 +55,12 @@
       </div>
       <div class="detail-footer__btns">
         <div class="toPrev" @click="toPrev">
-          <h3>上一篇</h3>
-          <p>{{ blogList[prevId].attributes.title }}</p>
+          <h3 class="btn__name">上一篇</h3>
+          <p class="btn__title">{{ blogList[prevId].attributes.title }}</p>
         </div>
         <div class="toNext" @click="toNext">
-          <h3>下一篇</h3>
-          <p>{{ blogList[nextId].attributes.title }}</p>
+          <h3 class="btn__name">下一篇</h3>
+          <p class="btn__title">{{ blogList[nextId].attributes.title }}</p>
         </div>
       </div>
     </div>
@@ -69,40 +78,39 @@ export default {
 };
 </script>
 <script setup lang='ts'>
-import { componentNames } from "~~/.nuxt/components";
+import { _AsyncData } from "nuxt/dist/app/composables/asyncData";
 const route = useRoute();
 const router = useRouter();
-const isNight = ref(false);
+const isNight: Ref<boolean> = ref(false);
 // 获取文章id
 
-const bid: Ref<string> = ref(route.query.bid);
-const detailRes = await useAsyncData("getDetail", () =>
-  $fetch(
-    `http://localhost:1337/api/blog-contents?filters[bid][$eq]=${bid.value}`
-  )
-);
-// export interface detailType {
-//   title: string;
-//   content: string;
-//   bid: number;
-//   publishDate?: Date;
-//   createdAt?: Date;
-//   publishedAt?: Date;
-//   updatedAt?: Date;
-// }
-// 获取文章内容
-// const detail: detailType = reactive(detailRes.data._rawValue.data[0]);
+let id: Ref<number> = ref(Number(route.query.id));
 
-const blogsRes = await $fetch(
+const detailRes: _AsyncData<Object, any> = await useAsyncData("getDetail", () =>
+  $fetch(`http://localhost:1337/api/blog-contents?filters[id][$eq]=${id.value}`)
+);
+
+interface resObject {
+  data?: Array<Object>;
+  meta?: Object;
+}
+
+const blogsRes: resObject = await $fetch(
   `http://localhost:1337/api/blog-contents?fields=title`
 );
 
-const blogList = blogsRes.data;
+const blogList: any = blogsRes.data || [];
 
-const prevId = computed(() => (bid.value - 1) % blogList.length.toString());
-const nextId = computed(() => (bid.value + 1) % blogList.length.toString());
+const prevId: ComputedRef<number> = computed(() => {
+  if (id.value - 2 < 0) {
+    return 8 + ((id.value - 2) % blogList.length);
+  } else {
+    return id.value - 2;
+  }
+}); // 0 7
+const nextId: ComputedRef<number> = computed(() => id.value % blogList.length);
 
-const height = computed(() =>
+const height: ComputedRef<string> = computed(() =>
   detailRes.data._rawValue.data[0].attributes.content.length > 500
     ? "auto"
     : "70rem"
@@ -132,15 +140,23 @@ const toHome = () => {
 // 逻辑有问题 变成后一页的
 
 const toPrev = async () => {
-  bid.value--;
+  if (id.value - 1 < 1) {
+    id.value = blogList.length;
+  } else {
+    id.value--;
+  }
   await refreshAllData();
-  router.push(`blogdetail?bid=${bid.value}`);
+  router.push(`blogdetail?id=${id.value}`);
 };
 
 const toNext = async () => {
-  bid.value++;
+  if (id.value + 1 > blogList.length) {
+    id.value = 1;
+  } else {
+    id.value++;
+  }
   await refreshAllData();
-  router.push(`blogdetail?bid=${bid.value}`);
+  router.push(`blogdetail?id=${id.value}`);
 };
 </script>
 
@@ -243,15 +259,19 @@ const toNext = async () => {
       // background-color:;
       background-color: #409eff;
       border-color: #409eff;
-      // color: white;
+      color: white;
+    }
+    .detail-footer__money:hover::before {
+      content: "❤";
+      color: red;
     }
     .detail-footer__btns {
       display: flex;
       justify-content: space-between;
       box-sizing: content-box;
       div {
-        width: 20%;
-        margin: 0 1rem;
+        width: 15%;
+        margin: 0 2rem;
         display: flex;
         white-space: nowrap;
         overflow: hidden;
@@ -262,13 +282,21 @@ const toNext = async () => {
         border-radius: 0.5rem;
         background-color: rgba($color: #fff, $alpha: 0.3);
         border-color: rgba($color: #fff, $alpha: 0.3);
-        justify-content: center;
+        justify-content: space-around;
         align-items: center;
-        * {
-          line-height: 100%;
+        position: relative;
+        .btn__name {
+          width: 40%;
           margin-left: 1rem;
+        }
+        .btn__title {
+          width: 50%;
+          display: block;
+          overflow: hidden;
           white-space: nowrap;
-          // overflow: hidden;
+          font-size: 14px;
+          text-overflow: ellipsis;
+          margin: 0 0.5rem;
         }
       }
       div:hover {

@@ -38,19 +38,21 @@ const props = defineProps({
 </script>
 
 <style lang="scss" scoped>
-p,
 h3 {
-  color: #808080;
+  color: #000;
+}
+p {
+  color: #101010;
 }
 .blog-info__container {
   width: 90%;
   margin: 0 auto 1rem auto;
-  border: 1px solid #808080;
+  border: 0;
   height: 10rem;
   display: flex;
   flex-direction: column;
   border-radius: 1rem;
-  box-shadow: 1rem 1rem 1.5rem 0.01rem rgba($color: #000000, $alpha: 0.5);
+  box-shadow: 0px 10px 12px 0.1px #aaaaaa;
   cursor: pointer;
   .blog-info__header {
     height: 25%;
@@ -58,7 +60,7 @@ h3 {
     text-align: left;
     overflow: hidden;
     white-space: nowrap;
-    border-bottom: 1px solid #808080;
+    // border-bottom: 1px solid #808080;
     h3 {
       margin-left: 1rem;
     }
@@ -71,6 +73,7 @@ h3 {
       margin-right: 1rem;
       white-space: pre-line;
       overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
   .blog-info__footer {
