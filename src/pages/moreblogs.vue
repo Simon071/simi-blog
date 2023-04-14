@@ -1,48 +1,6 @@
 <template lang="">
     <div class='blog-list__wrapper' :class="{'Night':!isDay}">
-        <nav class='blog-list__header'>
-          <div class='header-left'>
-            <button 
-            class='blog-list__toHome' 
-            @click="router.push('/#')"
-            :class="{'NightBtn':!isDay}">
-              <el-icon size='large'>
-                <HomeFilled />
-              </el-icon> 
-              <p>
-                Home
-              </p>
-            </button>
-          </div>
-          <div class='header-right'>
-            <button 
-            class='blog-list__toList'
-            :class="{'NightBtn':!isDay}"
-            @click='toList'>
-              <el-icon size='large'>
-                <List />
-              </el-icon> 
-              <p>Blogs</p>
-            </button>
-            <button 
-            class='blog-list__toAbout'
-            :class="{'NightBtn':!isDay}">
-              <el-icon size='large'>
-                <InfoFilled />
-              </el-icon>
-              <p>About</p>
-            </button>
-            <button 
-            class='blog-list__switchMode'
-             @click='switchMode'
-             :class="{'NightBtn':!isDay}">
-              <div>
-                <el-icon size='24' v-if="isDay"><Sunny /></el-icon>
-              <el-icon size='24' v-else><Moon /></el-icon>
-              </div>
-            </button>
-          </div>
-        </nav>
+        <page-header v-model:isDay='isDay'></page-header>
         <div class='blog-list__main'>
           <ul class='blog-list__list'>
             <li 
@@ -110,6 +68,9 @@ import {
   ArrowLeftBold,
   ArrowRightBold,
 } from "@element-plus/icons-vue";
+import { _AsyncData } from "nuxt/dist/app/composables/asyncData";
+import PageHeader from "~/component/pageheader/pageheader.vue";
+defineComponent({ PageHeader });
 const route = useRoute();
 //当前页面号码
 const pageNum: Ref<number> = ref(Number(route.query.page));
@@ -124,7 +85,8 @@ interface listType {
     };
   };
 }
-const listRes = await useAsyncData("getList", () =>
+
+const listRes: _AsyncData<object, any> = await useAsyncData("getList", () =>
   $fetch(
     `http://localhost:1337/api/blog-contents?pagination[pageSize]=5&pagination[page]=${pageNum.value}`
   )
@@ -149,6 +111,9 @@ const toList = async () => {
   pageNum.value = 1;
   await refreshAllData();
   router.push(`/moreblogs?page=${pageNum.value}`);
+};
+const toAbout = () => {
+  router.push("/about");
 };
 const refreshAllData = async () => {
   try {
@@ -204,8 +169,6 @@ const toDetail = (id: number) => {
     }
     .header-left {
       margin: 0 2rem;
-      .blog-list__toHome {
-      }
     }
     .header-right {
       margin: 0 3rem;

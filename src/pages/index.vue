@@ -22,22 +22,15 @@
   </div>
   <div class='footer'>
   </div>
+  <page-footer></page-footer>
 </template>
-<script  lang='ts' >
-import OwnerInfo from "../component/ownerInfo/ownerInfo.vue";
-import BlogContainer from "../component/blogcontainer/blogcontainer.vue";
-import BlogInfo from "../component/bloginfo/bloginfo.vue";
-export default {
-  name: "Main",
-  components: {
-    OwnerInfo,
-    BlogContainer,
-    BlogInfo,
-  },
-};
-</script>
 
-<script setup lang="ts">
+<script setup lang="ts" name='Main'>
+import OwnerInfo from "~/component/ownerInfo/ownerInfo.vue";
+import BlogContainer from "~/component/blogcontainer/blogcontainer.vue";
+import BlogInfo from "~/component/bloginfo/bloginfo.vue";
+import PageFooter from "~/component/pagefooter/pagefooter.vue"
+defineComponent({ OwnerInfo, BlogContainer, BlogInfo,PageFooter });
 const state = reactive({});
 const router = useRouter();
 const res = await useAsyncData("getBlogList", () =>
