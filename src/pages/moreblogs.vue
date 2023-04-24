@@ -55,9 +55,11 @@
         </div>
         <el-backtop class='backtopBtn'></el-backtop>
     </div>
+    <page-footer></page-footer>
 </template>
 
 <script setup name='MoreBlogs' lang='ts'>
+import PageFooter from "~/component/pagefooter/pagefooter.vue";
 import {
   HomeFilled,
   List,
@@ -70,7 +72,7 @@ import {
 } from "@element-plus/icons-vue";
 import { _AsyncData } from "nuxt/dist/app/composables/asyncData";
 import PageHeader from "~/component/pageheader/pageheader.vue";
-defineComponent({ PageHeader });
+defineComponent({ PageHeader, PageFooter });
 const route = useRoute();
 //当前页面号码
 const pageNum: Ref<number> = ref(Number(route.query.page));

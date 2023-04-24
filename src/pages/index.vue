@@ -29,8 +29,8 @@
 import OwnerInfo from "~/component/ownerInfo/ownerInfo.vue";
 import BlogContainer from "~/component/blogcontainer/blogcontainer.vue";
 import BlogInfo from "~/component/bloginfo/bloginfo.vue";
-import PageFooter from "~/component/pagefooter/pagefooter.vue"
-defineComponent({ OwnerInfo, BlogContainer, BlogInfo,PageFooter });
+import PageFooter from "~/component/pagefooter/pagefooter.vue";
+defineComponent({ OwnerInfo, BlogContainer, BlogInfo, PageFooter });
 const state = reactive({});
 const router = useRouter();
 const res = await useAsyncData("getBlogList", () =>

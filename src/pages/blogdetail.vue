@@ -53,13 +53,15 @@
     <el-backtop class="backtopBtn" :class="{ Night: !isDay }"></el-backtop>
     <!-- </div> -->
   </div>
+  <page-footer />
 </template>
 
 <script setup lang='ts' name='BlogDetail'>
 import { Sunny, Moon } from "@element-plus/icons-vue";
+import PageFooter from "~/component/pagefooter/pagefooter.vue";
 import { _AsyncData } from "nuxt/dist/app/composables/asyncData";
 import PageHeader from "~/component/pageheader/pageheader.vue";
-defineComponent({ PageHeader });
+defineComponent({ PageHeader, PageFooter });
 const route = useRoute();
 const router = useRouter();
 const isDay: Ref<boolean> = ref(false);
